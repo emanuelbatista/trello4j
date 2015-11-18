@@ -1,4 +1,4 @@
-package org.trello4j;
+package org.trello4j.service;
 
 import org.trello4j.model.Board;
 import org.trello4j.model.Card;

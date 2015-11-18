@@ -1,9 +1,23 @@
-package org.trello4j;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.trello4j.util;
+
+import org.trello4j.exception.TrelloException;
 
 /**
- * The Class TrelloUtil.
+ *
+ * @author Emanuel Batista da Silva Filho - https://github.com/emanuelbatista
  */
-public class TrelloUtil {
+public class TrelloIdValid {
+
+    public static void validateObjectId(String id) {
+        if (!isObjectIdValid(id)) {
+            throw new TrelloException("Invalid object id: " + id);
+        }
+    }
 
     /**
      * "Stolen" from: https://github.com/mongodb/mongo-java-driver
@@ -11,7 +25,7 @@ public class TrelloUtil {
      * @param s
      * @return true, if is object id valid
      */
-    public static boolean isObjectIdValid(String s) {
+    private static boolean isObjectIdValid(String s) {
         if (s == null) {
             return false;
         }

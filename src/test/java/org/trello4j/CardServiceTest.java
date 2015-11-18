@@ -1,5 +1,6 @@
 package org.trello4j;
 
+import org.trello4j.service.impl.TrelloImpl;
 import org.junit.Test;
 import org.trello4j.model.Card;
 

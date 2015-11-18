@@ -1,4 +1,4 @@
-package org.trello4j;
+package org.trello4j.exception;
 
 /**
  * The Class TrelloException.

@@ -1,5 +1,7 @@
 package org.trello4j;
 
+import org.trello4j.service.impl.TrelloImpl;
+import org.trello4j.exception.TrelloException;
 import org.junit.Test;
 import org.trello4j.model.*;
 import org.trello4j.model.Board.PERMISSION_TYPE;
@@ -9,12 +11,12 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * The Class TrelloImplIntegrationTest.
+ * The Class TrelloImplTest.
  */
-public class TrelloImplIntegrationTest {
+public class TrelloImplTest {
 
-    private static final String API_KEY = "f9e147388c9b6b46bf4e32009f8cf567";
-    private static final String API_TOKEN = "a90c3c4fd2062571b2a3db5b39c10a81402702aedb563ead9aefe13fa3b74ec8";
+    public static final String API_KEY = "f9e147388c9b6b46bf4e32009f8cf567";
+    public static final String API_TOKEN = "a90c3c4fd2062571b2a3db5b39c10a81402702aedb563ead9aefe13fa3b74ec8";
 
     @Test(expected = TrelloException.class)
     public void missingApiKey_shouldThrowException() {
@@ -65,33 +67,6 @@ public class TrelloImplIntegrationTest {
         assertEquals(PERMISSION_TYPE.PUBLIC, board.getPrefs().getVoting());
     }
 
-    @Test
-    public void shouldReturnAction() {
-        // GIVEN
-        String actionId = "564c6ab4bc33842f9df07263";
-
-        // WHEN
-        Action action = new TrelloImpl(API_KEY, null).getAction(actionId);
-
-        // THEN
-        assertNotNull("Oops, action is null", action);
-        assertEquals("Incorrect action id", actionId, action.getId());
-        assertNotNull("Date not set", action.getDate());
-        assertNotNull("idMemberCreator not set", action.getIdMemberCreator());
-
-        assertNotNull("memberCreator not set", action.getMemberCreator());
-        assertNotNull("memberCreator.id not set", action.getMemberCreator().getId());
-        assertNotNull("memberCreator.username not set", action.getMemberCreator().getUsername());
-        assertNotNull("memberCreator.fullName not set", action.getMemberCreator().getFullName());
-        assertNotNull("memberCreator.initials not set", action.getMemberCreator().getInitials());
-
-        assertNotNull("data not set", action.getData());
-//        assertNotNull("data.text not set", action.getData().getCard());
-        assertNotNull("data.board not set", action.getData().getBoard());
-        assertNotNull("data.board.id not set", action.getData().getBoard().getId());
-        assertNotNull("data.board.name not set", action.getData().getBoard().getName());
-
-    }
 
     @Test
     public void shouldReturnOrganization() {

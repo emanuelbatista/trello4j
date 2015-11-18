@@ -24,6 +24,7 @@ public class TrelloTypeDeserializer implements JsonDeserializer<TrelloType> {
 	 * com.google.gson.JsonDeserializer#deserialize(com.google.gson.JsonElement,
 	 * java.lang.reflect.Type, com.google.gson.JsonDeserializationContext)
 	 */
+        @Override
 	public TrelloType deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {
 		final String jsonStr = json.getAsString();
