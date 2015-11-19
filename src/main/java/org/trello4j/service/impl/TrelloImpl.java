@@ -4,7 +4,6 @@ import org.trello4j.exception.TrelloException;
 import org.trello4j.service.Trello;
 import com.google.gson.reflect.TypeToken;
 import org.trello4j.model.*;
-import org.trello4j.model.Board.Prefs;
 import org.trello4j.model.Card.Attachment;
 import org.trello4j.model.Checklist.CheckItem;
 
@@ -22,6 +21,7 @@ import org.trello4j.TrelloObjectFactoryImpl;
 import org.trello4j.TrelloURL;
 import org.trello4j.TrelloUtil;
 import org.trello4j.service.ActionService;
+import org.trello4j.service.BoardService;
 
 /**
  * The Class TrelloImpl.
@@ -36,7 +36,7 @@ public class TrelloImpl implements Trello {
 
     private String apiKey = null;
     private String token = null;
-    private TrelloObjectFactoryImpl trelloObjFactory = new TrelloObjectFactoryImpl();
+    private final TrelloObjectFactoryImpl TRELLO_OBJECT_FACTORY=new TrelloObjectFactoryImpl();
 
     public TrelloImpl(String apiKey) {
         this(apiKey, null);
@@ -54,179 +54,13 @@ public class TrelloImpl implements Trello {
     
     @Override
     public ActionService getActionService(){
-        return new org.trello4j.service.impl.ActionService(apiKey, token, trelloObjFactory);
+        return new org.trello4j.service.impl.ActionService(apiKey, token, TRELLO_OBJECT_FACTORY);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getBoard(java.lang.String)
-     */
     @Override
-    public Board getBoard(final String boardId) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_URL, boardId)
-                .token(token)
-                .build();
-
-        return trelloObjFactory.createObject(new TypeToken<Board>() {
-        }, doGet(url));
+    public BoardService getBoardService(){
+        return new org.trello4j.service.impl.BoardService(apiKey, token, TRELLO_OBJECT_FACTORY);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getActionsByBoard(java.lang.String,
-     * java.lang.String[])
-     */
-    @Override
-    public List<Action> getActionsByBoard(final String boardId,
-            final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_ACTIONS_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-
-        return trelloObjFactory.createObject(new TypeToken<List<Action>>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getCardsByBoard(java.lang.String)
-     */
-    @Override
-    public List<Card> getCardsByBoard(String boardId, final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_CARDS_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Card>>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getChecklistByBoard(java.lang.String)
-     */
-    @Override
-    public List<Checklist> getChecklistByBoard(String boardId) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_CHECKLISTS_URL, boardId)
-                .token(token)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Checklist>>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getListByBoard(java.lang.String)
-     */
-    @Override
-    public List<org.trello4j.model.List> getListByBoard(String boardId,
-            final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_LISTS_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-        return trelloObjFactory.createObject(
-                new TypeToken<List<org.trello4j.model.List>>() {
-                },
-                doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getMembersByBoard(java.lang.String)
-     */
-    @Override
-    public List<Member> getMembersByBoard(String boardId,
-            final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_MEMBERS_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Member>>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getMembersInvitedByBoard(java.lang.String)
-     */
-    @Override
-    public List<Member> getMembersInvitedByBoard(String boardId,
-            final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_MEMBERS_INVITED_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Member>>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getPrefsByBoard(java.lang.String)
-     */
-    @Override
-    public Prefs getPrefsByBoard(String boardId) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_PREFS_URL, boardId)
-                .token(token)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<Prefs>() {
-        }, doGet(url));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.trello4j.BoardService#getOrganizationByBoard(java.lang.String)
-     */
-    @Override
-    public Organization getOrganizationByBoard(String boardId,
-            final String... filter) {
-        validateObjectId(boardId);
-
-        final String url = TrelloURL
-                .create(apiKey, TrelloURL.BOARD_ORGANIZAION_URL, boardId)
-                .token(token)
-                .filter(filter)
-                .build();
-        return trelloObjFactory.createObject(new TypeToken<Organization>() {
-        }, doGet(url));
-    }
-
-
     /*
      * (non-Javadoc)
      * 
@@ -240,7 +74,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .filter(filter)
                 .build();
-        return trelloObjFactory.createObject(new TypeToken<Organization>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Organization>() {
         }, doGet(url));
     }
 
@@ -256,7 +90,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .filter(filter)
                 .build();
-        return trelloObjFactory.createObject(new TypeToken<Member>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Member>() {
         }, doGet(url));
     }
 
@@ -273,7 +107,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .filter(filter)
                 .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Board>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Board>>() {
         }, doGet(url));
     }
 
@@ -295,7 +129,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .filter(filter)
                 .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Board>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Board>>() {
         }, doGet(url));
     }
 
@@ -315,7 +149,7 @@ public class TrelloImpl implements Trello {
                         organizationNameOrId)
                 .token(token)
                 .build();
-        return trelloObjFactory.createObject(new TypeToken<List<Action>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Action>>() {
         }, doGet(url));
     }
 
@@ -333,7 +167,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Card>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Card>() {
         }, doGet(url));
     }
 
@@ -351,7 +185,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Action>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Action>>() {
         }, doGet(url));
     }
 
@@ -369,7 +203,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Attachment>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Attachment>>() {
         }, doGet(url));
     }
 
@@ -388,7 +222,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Board>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Board>() {
         }, doGet(url));
     }
 
@@ -406,7 +240,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<CheckItem>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<CheckItem>>() {
         }, doGet(url));
     }
 
@@ -424,7 +258,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Checklist>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Checklist>>() {
         }, doGet(url));
     }
 
@@ -444,7 +278,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<org.trello4j.model.List>() {
                 },
                 doGet(url));
@@ -464,7 +298,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Member>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Member>>() {
         }, doGet(url));
     }
 
@@ -483,7 +317,7 @@ public class TrelloImpl implements Trello {
         keyValueMap.put("name", name);
         keyValueMap.put("idList", idList);
 
-        return trelloObjFactory.createObject(new TypeToken<Card>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Card>() {
         }, doPost(url, keyValueMap));
     }
 
@@ -501,7 +335,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<org.trello4j.model.List>() {
                 },
                 doGet(url));
@@ -523,7 +357,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Notification>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Notification>() {
         }, doGet(url));
     }
 
@@ -542,7 +376,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Checklist>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Checklist>() {
         }, doGet(url));
     }
 
@@ -558,7 +392,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Type>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Type>() {
         }, doGet(url));
     }
 
@@ -582,7 +416,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Member>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Member>>() {
         }, doGet(url));
     }
 
@@ -606,7 +440,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Board>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Board>() {
         }, doGet(url));
     }
 
@@ -630,7 +464,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Card>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Card>() {
         }, doGet(url));
     }
 
@@ -651,7 +485,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<org.trello4j.model.List>() {
                 },
                 doGet(url));
@@ -678,7 +512,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Member>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Member>() {
         }, doGet(url));
     }
 
@@ -703,7 +537,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Member>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Member>() {
         }, doGet(url));
     }
 
@@ -728,7 +562,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Member>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Member>() {
         }, doGet(url));
     }
 
@@ -746,7 +580,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Action>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Action>>() {
         }, doGet(url));
     }
 
@@ -765,7 +599,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Board>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Board>() {
         }, doGet(url));
     }
 
@@ -784,7 +618,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Card>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Card>>() {
         }, doGet(url));
     }
 
@@ -801,7 +635,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Action>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Action>>() {
         }, doGet(url));
     }
 
@@ -820,7 +654,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Card>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Card>>() {
         }, doGet(url));
     }
 
@@ -843,7 +677,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<List<Notification>>() {
                 },
                 doGet(url));
@@ -865,7 +699,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<List<Organization>>() {
                 },
                 doGet(url));
@@ -891,7 +725,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(
+        return TRELLO_OBJECT_FACTORY.createObject(
                 new TypeToken<List<Organization>>() {
                 },
                 doGet(url));
@@ -913,7 +747,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Board>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Board>() {
         }, doGet(url));
     }
 
@@ -932,7 +766,7 @@ public class TrelloImpl implements Trello {
                 .token(token)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<CheckItem>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<CheckItem>>() {
         }, doGet(url));
     }
 
@@ -952,7 +786,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<List<Card>>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List<Card>>() {
         }, doGet(url));
     }
 
@@ -971,7 +805,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Token>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Token>() {
         }, doGet(url));
     }
 
@@ -990,7 +824,7 @@ public class TrelloImpl implements Trello {
                 .filter(filter)
                 .build();
 
-        return trelloObjFactory.createObject(new TypeToken<Member>() {
+        return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<Member>() {
         }, doGet(url));
     }
 

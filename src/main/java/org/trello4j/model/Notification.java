@@ -27,31 +27,32 @@ package org.trello4j.model;
  *     }
  * }
  * </code>
- * 
+ *
  * @author joel
- * 
+ *
  */
 public class Notification extends Action {
 
-	/** The unread. */
-	private boolean unread;
+    /**
+     * The unread.
+     */
+    private boolean unread;
 
-	/**
-	 * Checks if is unread.
-	 * 
-	 * @return true, if is unread
-	 */
-	public boolean isUnread() {
-		return unread;
-	}
+    /**
+     * Checks if is unread.
+     *
+     * @return true, if is unread
+     */
+    public boolean isUnread() {
+        return unread;
+    }
 
-	/**
-	 * Sets the unread.
-	 * 
-	 * @param unread
-	 *            the new unread
-	 */
-	public void setUnread(boolean unread) {
-		this.unread = unread;
-	}
+    /**
+     * Sets the unread.
+     *
+     * @param unread the new unread
+     */
+    public void setUnread(boolean unread) {
+        this.unread = unread;
+    }
 }

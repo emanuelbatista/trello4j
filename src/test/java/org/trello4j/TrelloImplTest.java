@@ -9,6 +9,7 @@ import org.trello4j.model.Board.PERMISSION_TYPE;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import org.trello4j.service.ActionService;
 
 /**
  * The Class TrelloImplTest.
@@ -22,51 +23,17 @@ public class TrelloImplTest {
     public void missingApiKey_shouldThrowException() {
         new TrelloImpl(null);
     }
-
-    @Test(expected = TrelloException.class)
-    public void testInvalidObjectId() {
-        // GIVEN		
-        String boardId = "INVALID_ID";
-
-        // WHEN
-        Board board = new TrelloImpl(API_KEY, null).getBoard(boardId);
-
-        // THEN
-        assertNull("Oops, board is null", board);
-    }
-
+    
     @Test
-    public void test404_shouldReturnNull() {
-        // GIVEN		
-        String boardId = "00000000000000000000000c";
-
-        // WHEN
-        Board board = new TrelloImpl(API_KEY, null).getBoard(boardId);
-
-        // THEN
-        assertNull("Oops, board is null", board);
+    public void shouldActionService(){
+        
+        //WHEN
+        ActionService actionService=new TrelloImpl(API_KEY).getActionService();
+        
+        //THEN
+        assertNotNull("ActionService is null",actionService);
+        
     }
-
-    @Test
-    public void shouldReturnPublicBoard() {
-        // GIVEN
-        String boardId = "564c5e78a5ccfadecdc8c053"; // ID of Trello Development
-
-        // WHEN
-        Board board = new TrelloImpl(API_KEY, null).getBoard(boardId);
-
-        // THEN
-        assertNotNull("Oops, board is null", board);
-        assertEquals("Incorrect board id", boardId, board.getId());
-        assertEquals("Incorrect name of board", "Teste Public", board.getName());
-        assertEquals("Incorrect organization id", "564bbd27bbf576ccdf3a9a83", board.getIdOrganization());
-        assertEquals("Incorrect url", "https://trello.com/b/SuLfRSRT/teste-public", board.getUrl());
-        assertFalse("This should be an open board", board.isClosed());
-        assertNotNull(board.getDesc());
-        assertNotNull(board.getPrefs());
-        assertEquals(PERMISSION_TYPE.PUBLIC, board.getPrefs().getVoting());
-    }
-
 
     @Test
     public void shouldReturnOrganization() {
@@ -127,19 +94,6 @@ public class TrelloImplTest {
         // THEN
         assertTrue("Organization should have at least one board", boards.size() > 0);
         assertTrue("Organization FogCreek should have Trello Development board", hasBoardWithId(boards, trelloDevBoardId));
-    }
-
-    @Test
-    public void shouldReturnActionsByBoard() {
-        // GIVEN
-        String trelloDevBoardId = "4d5ea62fd76aa1136000000c";
-
-        // WHEN
-        List<Action> actions = new TrelloImpl(API_KEY, null).getActionsByBoard(trelloDevBoardId);
-
-        // THEN
-        assertTrue("Board should have at least one action", actions.size() > 0);
-        assertEquals("Board id and action.data.board.id should be equal", trelloDevBoardId, actions.get(0).getData().getBoard().getId());
     }
 
     @Test

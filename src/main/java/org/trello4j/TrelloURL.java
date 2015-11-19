@@ -5,9 +5,31 @@ package org.trello4j;
  */
 public class TrelloURL {
 
+    //ACTION - BEGIN
+    public static final String ACTION_URL = "https://api.trello.com/1/actions/{0}";
+    public static final String ACTION_BOARD_URL = "https://api.trello.com/1/actions/{0}/board";
+    public static final String ACTION_CARD_URL = "https://api.trello.com/1/actions/{0}/card";
+    public static final String ACTION_MEMBER_URL = "https://api.trello.com/1/actions/{0}/member";
+    public static final String ACTION_LIST_URL = "https://api.trello.com/1/actions/{0}/list";
+    public static final String ACTION_MEMBERCREATOR_URL = "https://api.trello.com/1/actions/{0}/memberCreator";
+    public static final String ACTION_ORGANIZATION_URL = "https://api.trello.com/1/actions/{0}/organization";
+    public static final String ACTION_DISPLAY_URL = "https://api.trello.com/1/actions/{0}/display";
+    public static final String ACTION_ENTITIES_URL = "https://api.trello.com/1/actions/{0}/entities";
+    //ACTION - END
+
+    //BOARD - BEGIN
+    public static final String BOARD_CARDS_URL = "https://api.trello.com/1/boards/{0}/cards";
+    public static final String BOARD_CHECKLISTS_URL = "https://api.trello.com/1/boards/{0}/checklists";
+    public static final String BOARD_LISTS_URL = "https://api.trello.com/1/boards/{0}/lists";
     public static final String BOARD_URL = "https://api.trello.com/1/boards/{0}";
     public static final String BOARD_ACTIONS_URL = "https://api.trello.com/1/boards/{0}/actions";
-    public static final String ACTION_URL = "https://api.trello.com/1/actions/{0}";
+    public static final String BOARD_MEMBERS_URL = "https://api.trello.com/1/boards/{0}/members";
+    public static final String BOARD_MEMBERS_INVITED_URL = "https://api.trello.com/1/boards/{0}/membersInvited";
+    public static final String BOARD_PREFS_URL = "https://api.trello.com/1/boards/{0}/myPrefs";
+    public static final String BOARD_ORGANIZAION_URL = "https://api.trello.com/1/boards/{0}/organization";
+    public static final String BOARD_CLOSED_URL = "https://api.trello.com/1/boards/{0}/closed";
+    //BOARD - END
+
     public static final String ORGANIZATION_URL = "https://api.trello.com/1/organizations/{0}";
     public static final String ORGANIZATION_BOARDS_URL = "https://api.trello.com/1/organizations/{0}/boards";
     public static final String ORGANIZATION_ACTIONS_URL = "https://api.trello.com/1/organizations/{0}/actions";
@@ -18,20 +40,6 @@ public class TrelloURL {
     public static final String NOTIFICATION_URL = "https://api.trello.com/1/notifications/{0}";
     public static final String CHECKLIST_URL = "https://api.trello.com/1/checklists/{0}";
     public static final String TYPE_URL = "https://api.trello.com/1/types/{0}";
-    public static final String ACTION_BOARD_URL = "https://api.trello.com/1/actions/{0}/board";
-    public static final String ACTION_CARD_URL = "https://api.trello.com/1/actions/{0}/card";
-    public static final String ACTION_MEMBER_URL = "https://api.trello.com/1/actions/{0}/member";
-    public static final String ACTION_LIST_URL = "https://api.trello.com/1/actions/{0}/list";
-    public static final String ACTION_MEMBERCREATOR_URL = "https://api.trello.com/1/actions/{0}/memberCreator";
-    public static final String ACTION_ORGANIZATION_URL = "https://api.trello.com/1/actions/{0}/organization";
-    public static final String BOARD_CARDS_URL = "https://api.trello.com/1/boards/{0}/cards";
-    public static final String BOARD_CHECKLISTS_URL = "https://api.trello.com/1/boards/{0}/checklists";
-    public static final String BOARD_LISTS_URL = "https://api.trello.com/1/boards/{0}/lists";
-    public static final String BOARD_MEMBERS_URL = "https://api.trello.com/1/boards/{0}/members";
-    public static final String BOARD_MEMBERS_INVITED_URL = "https://api.trello.com/1/boards/{0}/membersInvited";
-    public static final String BOARD_PREFS_URL = "https://api.trello.com/1/boards/{0}/myPrefs";
-    public static final String BOARD_ORGANIZAION_URL = "https://api.trello.com/1/boards/{0}/organization";
-    public static final String BOARD_CLOSED_URL = "https://api.trello.com/1/boards/{0}/closed";
     public static final String CARD_ACTION_URL = "https://api.trello.com/1/cards/{0}/actions";
     public static final String CARD_ATTACHEMENT_URL = "https://api.trello.com/1/cards/{0}/attachments";
     public static final String CARD_BOARD_URL = "https://api.trello.com/1/cards/{0}/board";

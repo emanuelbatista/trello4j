@@ -21,7 +21,7 @@ import org.trello4j.util.TrelloIdValid;
  *
  * @author Emanuel Batista da Silva Filho - https://github.com/emanuelbatista
  */
-public class ActionService implements org.trello4j.service.ActionService {
+class ActionService implements org.trello4j.service.ActionService {
 
     private final String APIKEY;
     private final String TOKEN;
@@ -105,7 +105,7 @@ public class ActionService implements org.trello4j.service.ActionService {
 
     @Override
     public Organization getOrganizationByAction(String actionId, String... filter) {
-          TrelloIdValid.validateObjectId(actionId);
+        TrelloIdValid.validateObjectId(actionId);
 
         final String url = TrelloURL
                 .create(APIKEY, TrelloURL.ACTION_ORGANIZATION_URL, actionId)
@@ -129,6 +129,16 @@ public class ActionService implements org.trello4j.service.ActionService {
 
         return TRELLO_OBJECT_FACTORY.createObject(new TypeToken<List>() {
         }, TrelloHttpRest.doGet(url));
+    }
+
+    @Override
+    public void removeAction(String actionId) {
+        TrelloIdValid.validateObjectId(actionId);
+
+        final String url=TrelloURL.create(APIKEY, TrelloURL.ACTION_URL, actionId)
+                .token(TOKEN)
+                .build();
+        TrelloHttpRest.doDelete(url);
     }
 
 }

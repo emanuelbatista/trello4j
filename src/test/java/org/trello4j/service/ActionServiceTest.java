@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.trello4j.TrelloImplTest;
 import org.trello4j.model.Action;
+import org.trello4j.model.Board;
 import org.trello4j.service.impl.TrelloImpl;
 
 /**
@@ -19,6 +20,7 @@ import org.trello4j.service.impl.TrelloImpl;
 public class ActionServiceTest {
     
     private final ActionService actionService;
+    private final String ACTION_ID = "564c6ab4bc33842f9df07263";
 
     public ActionServiceTest() {
         Trello trello=new TrelloImpl(TrelloImplTest.API_KEY,TrelloImplTest.API_TOKEN);
@@ -28,14 +30,13 @@ public class ActionServiceTest {
      @Test
     public void shouldReturnAction() {
         // GIVEN
-        String actionId = "564c6ab4bc33842f9df07263";
-
+        
         // WHEN
-        Action action = actionService.getAction(actionId);
+        Action action = actionService.getAction(ACTION_ID);
 
         // THEN
         assertNotNull("Oops, action is null", action);
-        assertEquals("Incorrect action id", actionId, action.getId());
+        assertEquals("Incorrect action id", ACTION_ID, action.getId());
         assertNotNull("Date not set", action.getDate());
         assertNotNull("idMemberCreator not set", action.getIdMemberCreator());
 
@@ -51,4 +52,14 @@ public class ActionServiceTest {
         assertNotNull("data.board.id not set", action.getData().getBoard().getId());
         assertNotNull("data.board.name not set", action.getData().getBoard().getName());
     }
+    
+    @Test
+    public void testGetBoardByAction(){
+        //WHEN
+        Board board=actionService.getBoardByAction(ACTION_ID);
+        
+        //THEN
+        assertNotNull("Board is null",board);
+    }
+    
 }
